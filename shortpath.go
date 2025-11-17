@@ -1,8 +1,30 @@
 package main
 
 import (
+	"os"
+	"path/filepath"
 	"strings"
 )
+
+// FindClosestGitRepoParent traverses up from the given directory
+// and returns the name of the first directory containing a .git subdirectory.
+// Returns an empty string if no such directory is found.
+func FindClosestGitRepoParent(path string) string {
+	for {
+		gitDir := filepath.Join(path, ".git")
+		info, err := os.Stat(gitDir)
+		if err == nil && info.IsDir() {
+			return filepath.Base(path) // Return the directory name
+		}
+
+		parent := filepath.Dir(path)
+		if parent == path { // We've reached the root
+			break
+		}
+		path = parent
+	}
+	return "" // No .git directory found
+}
 
 // ShortenPath shortens a file path according to specific rules.
 func ShortenPath(path string, homeDir string) string {

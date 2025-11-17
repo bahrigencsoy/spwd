@@ -2,22 +2,22 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
 func main() {
-	// Get the current working directory (where the command was executed from)
-	// This behaves like 'pwd -L' (logical path, not physical)
-	pwd := os.Getenv("PWD")
-	if pwd == "" {
-		var err error
-		pwd, err = os.Getwd()
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error getting current directory: %v\n", err)
-			os.Exit(1)
-		}
+	wd, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("failed to get current working directory: %v", err)
 	}
 
-	shortened := ShortenPath(pwd)
-	fmt.Println(shortened)
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		// Don't fail, just proceed without home dir shortening
+		homeDir = ""
+	}
+
+	shortenedPath := ShortenPath(wd, homeDir)
+	fmt.Println(shortenedPath)
 }

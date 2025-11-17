@@ -10,13 +10,7 @@ import (
 func main() {
 	useColor := flag.Bool("c", false, "use color in output")
 	findGit := flag.Bool("g", false, "traverse up and find the closest .git directory")
-	doHello := flag.Bool("t", false, "display HELLO on the top right corner")
 	flag.Parse()
-
-	if *doHello {
-		DisplayHello()
-		return
-	}
 
 	wd, err := os.Getwd()
 	if err != nil {

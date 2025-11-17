@@ -6,7 +6,7 @@ GOBUILD=$(GOCMD) build
 GOTEST=$(GOCMD) test
 GOCLEAN=$(GOCMD) clean
 BINARY_NAME=shortpath
-SOURCES=main.go shortpath.go terminal.go
+SOURCES=main.go shortpath.go
 
 # Build flags for optimization
 LDFLAGS=-ldflags="-s -w"

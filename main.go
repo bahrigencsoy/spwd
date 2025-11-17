@@ -1,12 +1,16 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
 )
 
 func main() {
+	useColor := flag.Bool("c", false, "use color in output")
+	flag.Parse()
+
 	wd, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("failed to get current working directory: %v", err)
@@ -19,5 +23,10 @@ func main() {
 	}
 
 	shortenedPath := ShortenPath(wd, homeDir)
-	fmt.Println(shortenedPath)
+
+	if *useColor {
+		fmt.Printf("\033[31m%s\033[0m\n", shortenedPath)
+	} else {
+		fmt.Println(shortenedPath)
+	}
 }

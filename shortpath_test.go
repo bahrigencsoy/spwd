@@ -1,6 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -89,4 +94,39 @@ func TestShortenPath(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestTFlag(t *testing.T) {
+	ppid := os.Getpid()
+	tmpDir := os.TempDir()
+	filePath := filepath.Join(tmpDir, fmt.Sprintf("shortpath-%d", ppid))
+
+	cmd := exec.Command("./shortpath", "-t")
+	cmd.Run()
+
+	// Check if the file exists
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		t.Fatalf("file was not created: %s", filePath)
+	}
+
+	// Check file permissions
+	info, err := os.Stat(filePath)
+	if err != nil {
+		t.Fatalf("failed to get file info: %v", err)
+	}
+	if info.Mode().Perm() != 0600 {
+		t.Errorf("file permissions are not 0600: %s", info.Mode().Perm())
+	}
+
+	// Check file content
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		t.Fatalf("failed to read file: %v", err)
+	}
+	if len(strings.TrimSpace(string(content))) == 0 {
+		t.Errorf("file is empty")
+	}
+
+	// Clean up the file
+	os.Remove(filePath)
 }

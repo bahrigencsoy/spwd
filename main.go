@@ -9,7 +9,13 @@ import (
 
 func main() {
 	findGit := flag.Bool("g", false, "traverse up and find the closest .git directory")
+	printParentPid := flag.Bool("p", false, "print parent process pid")
 	flag.Parse()
+
+	if *printParentPid {
+		fmt.Println(os.Getppid())
+		return
+	}
 
 	wd, err := os.Getwd()
 	if err != nil {

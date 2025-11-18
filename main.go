@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	useColor := flag.Bool("c", false, "use color in output")
 	findGit := flag.Bool("g", false, "traverse up and find the closest .git directory")
 	flag.Parse()
 
@@ -20,12 +19,9 @@ func main() {
 	if *findGit {
 		repoName := FindClosestGitRepoParent(wd)
 		if repoName != "" {
-			if *useColor {
-				fmt.Printf("\033[33m[%s]\033[0m ", repoName)
-			} else {
-				fmt.Printf("[%s] ", repoName)
-			}
+			fmt.Printf("[%s] ", repoName)
 		}
+		return
 	}
 
 	homeDir, err := os.UserHomeDir()
@@ -36,9 +32,5 @@ func main() {
 
 	shortenedPath := ShortenPath(wd, homeDir)
 
-	if *useColor {
-		fmt.Printf("\033[31m%s\033[0m\n", shortenedPath)
-	} else {
-		fmt.Println(shortenedPath)
-	}
+	fmt.Println(shortenedPath)
 }

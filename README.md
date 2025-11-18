@@ -21,3 +21,17 @@ cd shortpath
 
 # Build and install
 make install
+```
+
+### Sample BASH prompt
+
+```bash
+LIME_YELLOW=$(tput setaf 190)
+RED=$(tput setaf 1)
+NORMAL=$(tput sgr0)
+BRIGHT=$(tput bold)
+WHITE=$(tput setaf 7)
+export PS1="\[${LIME_YELLOW}\]\$(spwd -g)\[${RED}\]\$(spwd) \[${BRIGHT}\]\[${WHITE}\]$\[${NORMAL}\] "
+```
+
+See this [stackoverlow answer](https://stackoverflow.com/a/1703567) for more examples.

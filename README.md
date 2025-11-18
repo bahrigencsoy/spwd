@@ -4,10 +4,9 @@ A Go utility that shortens directory paths for display in shell prompts or other
 
 ## Features
 
-- Shortens long directory paths to at most 3 visible components
-- Shows root directory, last 2 directories, and represents middle directories as dots
-- Replaces home directory with `~`
-- Respects symbolic links (like `pwd` command does)
+- Shortens long directory paths to at most 3 visible components, respecting home directory
+- Finds git directories in the parent paths
+- Can calculate execution time in microseconds precision
 - Fast and optimized for speed
 
 ## Installation
@@ -32,6 +31,10 @@ NORMAL=$(tput sgr0)
 BRIGHT=$(tput bold)
 WHITE=$(tput setaf 7)
 export PS1="\[${LIME_YELLOW}\]\$(spwd -g)\[${RED}\]\$(spwd) \[${BRIGHT}\]\[${WHITE}\]$\[${NORMAL}\] "
+# assuming that you installed preexec from https://github.com/rcaloras/bash-preexec
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+preexec() { export ___T0_=$(spwd -m) ; }
+precmd() { export ELAPSED=$(spwd -d ${___T0_:-1}) ; }
 ```
 
-See this [stackoverlow answer](https://stackoverflow.com/a/1703567) for more examples.
+See this [stackoverlow answer](https://stackoverflow.com/a/1703567) for more color examples.

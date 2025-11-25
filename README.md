@@ -15,11 +15,11 @@ A Go utility that shortens directory paths for display in shell prompts or other
 
 ```bash
 # Clone the repository
-git clone <span><span style="color: rgb(150, 34, 73); font-weight: bold;">&lt;repository-url&gt;</span><span style="color: black; font-weight: normal;">
-cd shortpath
+git clone git@github.com:bahrigencsoy/spwd.git
+cd spwd
 
 # Build and install
-make install
+make build && sudo make install
 ```
 
 ### Sample BASH prompt

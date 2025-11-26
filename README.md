@@ -43,6 +43,7 @@ autoload -U colors && colors
 setopt PROMPT_SUBST
 export PS1="%{$fg[yellow]%}\$(spwd -g)%{$fg[red]%}\$(spwd) %{$fg[white]%}%% %{$reset_color%}"
 fi
+alias cdr='cd "$(spwd -gf)"'
 ```
 
 See this [stackoverlow answer](https://stackoverflow.com/a/1703567) for more bash color examples.

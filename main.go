@@ -11,6 +11,7 @@ import (
 func main() {
 
 	findGit := flag.Bool("g", false, "traverse up and find the closest .git directory")
+	fullGit := flag.Bool("gf", false, "print the full git source directory in the parents")
 	micro := flag.Bool("m", false, "current microsecond clock")
 	diff := flag.Int64("d", 0, "microsecond diff")
 	flag.Parse()
@@ -32,9 +33,19 @@ func main() {
 	}
 
 	if *findGit {
-		repoName := FindClosestGitRepoParent(wd)
+		repoName, _ := FindClosestGitRepoParent(wd)
 		if repoName != "" {
 			fmt.Printf("[%s] ", repoName)
+		}
+		return
+	}
+
+	if *fullGit {
+		_, fullPath := FindClosestGitRepoParent(wd)
+		if fullPath != "__" {
+			fmt.Printf("%s", fullPath)
+		} else {
+			fmt.Printf(".")
 		}
 		return
 	}

@@ -22,9 +22,10 @@ cd spwd
 make build && sudo make install
 ```
 
-### Sample BASH prompt
+### Sample shell profile
 
-```bash
+```sh
+if [[ -n "$BASH_VERSION" ]]; then
 LIME_YELLOW=$(tput setaf 190)
 RED=$(tput setaf 1)
 NORMAL=$(tput sgr0)
@@ -32,9 +33,16 @@ BRIGHT=$(tput bold)
 WHITE=$(tput setaf 7)
 export PS1="\[${LIME_YELLOW}\]\$(spwd -g)\[${RED}\]\$(spwd) \[${BRIGHT}\]\[${WHITE}\]$\[${NORMAL}\] "
 # assuming that you installed preexec from https://github.com/rcaloras/bash-preexec
+# the execution time of the last command will be stored in $ELAPSED variable
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 preexec() { export ___T0_=$(spwd -m) ; }
 precmd() { export ELAPSED=$(spwd -d ${___T0_:-1}) ; }
+fi
+if [[ -n "$ZSH_VERSION" ]]; then
+autoload -U colors && colors
+setopt PROMPT_SUBST
+export PS1="%{$fg[yellow]%}\$(spwd -g)%{$fg[red]%}\$(spwd) %{$fg[white]%}%% %{$reset_color%}"
+fi
 ```
 
-See this [stackoverlow answer](https://stackoverflow.com/a/1703567) for more color examples.
+See this [stackoverlow answer](https://stackoverflow.com/a/1703567) for more bash color examples.

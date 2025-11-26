@@ -45,6 +45,7 @@ func main() {
 		if fullPath != "__" {
 			fmt.Printf("%s", fullPath)
 		} else {
+			fmt.Fprintf(os.Stderr, "not in a git tree\n")
 			fmt.Printf(".")
 		}
 		return
